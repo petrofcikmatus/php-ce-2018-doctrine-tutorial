@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 // registering a new user:
 
 // 1. check if a user with the same email address exists
@@ -9,6 +11,12 @@
 // 5. save the user
 
 // Tip: discuss - email or saving? Chicken-egg problem
+
+use Authentication\Entity\User;
+use Authentication\Repository\UserRepository;
+use Authentication\Value\Email;
+use Authentication\Value\Password;
+use Authentication\Value\PasswordHash;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -20,7 +28,7 @@ if (empty($_POST['emailAddress']) || empty($_POST['password'])) {
     exit('Meh, there is not emailAddress or password.');
 }
 
-$repository = new \Authentication\Repository\UserRepository();
+$repository = new UserRepository();
 
 $user = $repository->find($_POST['emailAddress']);
 
@@ -28,7 +36,11 @@ if ($user !== null) {
     exit('User already exists.');
 }
 
-$user = \Authentication\Entity\User::createFromForm($_POST['emailAddress'], $_POST['password']);
+$email = Email::fromEmail($_POST['emailAddress']);
+$password = Password::fromString($_POST['password']);
+$passwordHash = $password->makeHash();
+
+$user = new User($email, $passwordHash);
 
 $repository->store($user);
 

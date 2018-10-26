@@ -2,23 +2,21 @@
 
 namespace Authentication\Entity;
 
+use Authentication\Value\Email;
+use Authentication\Value\PasswordHash;
+
 class User
 {
-    /** @var string */
+    /** @var Email */
     private $email;
 
-    /** @var string */
+    /** @var PasswordHash */
     private $passwordHash;
 
-    private function __construct(string $email, string $passwordHash)
+    public function __construct(Email $email, PasswordHash $passwordHash)
     {
         $this->email = $email;
         $this->passwordHash = $passwordHash;
-    }
-
-    public static function createFromForm(string $email, string $password): self
-    {
-        return new User($email, password_hash($password, PASSWORD_BCRYPT));
     }
 
     public static function createFromSerializedString(string $serialized): self
@@ -28,24 +26,24 @@ class User
             'passwordHash' => $passwordHash,
         ] = unserialize($serialized);
 
-        return new User($email, $passwordHash);
+        return new User(Email::fromEmail($email), PasswordHash::fromPasswordHash($passwordHash));
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
         return $this->email;
     }
 
     public function verifyPassword(string $password): bool
     {
-        return password_verify($password, $this->passwordHash);
+        return $this->passwordHash->verify($password);
     }
 
     public function serialize(): string
     {
         return serialize([
-            'email' => $this->email,
-            'passwordHash' => $this->passwordHash,
+            'email' => $this->email->toString(),
+            'passwordHash' => $this->passwordHash->toString(),
         ]);
     }
 }
