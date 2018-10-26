@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Authentication\Entity;
 
@@ -26,7 +26,7 @@ class User
             'passwordHash' => $passwordHash,
         ] = unserialize($serialized);
 
-        return new User(Email::fromEmail($email), PasswordHash::fromPasswordHash($passwordHash));
+        return new User(Email::fromString($email), PasswordHash::fromPasswordHash($passwordHash));
     }
 
     public function getEmail(): Email

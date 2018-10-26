@@ -12,18 +12,13 @@ final class Email
         $this->value = $value;
     }
 
-    public static function fromEmail(string $email): self
+    public static function fromString(string $value): self
     {
-        if (!\filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!\filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException();
         }
 
-        return new self($email);
-    }
-
-    public function isValid(): bool
-    {
-        return filter_var($this->value, FILTER_VALIDATE_EMAIL);
+        return new self($value);
     }
 
     public function toString(): string

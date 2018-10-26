@@ -16,7 +16,6 @@ use Authentication\Entity\User;
 use Authentication\Repository\UserRepository;
 use Authentication\Value\Email;
 use Authentication\Value\Password;
-use Authentication\Value\PasswordHash;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -36,7 +35,7 @@ if ($user !== null) {
     exit('User already exists.');
 }
 
-$email = Email::fromEmail($_POST['emailAddress']);
+$email = Email::fromString($_POST['emailAddress']);
 $password = Password::fromString($_POST['password']);
 $passwordHash = $password->makeHash();
 
