@@ -1,0 +1,1 @@
+a:2:{i:0;s:126:"a:2:{s:5:"email";s:12:"matus@lmc.eu";s:12:"passwordHash";s:60:"$2y$10$j4xF3wXF2JjaP9iMOmhXI.UwhPRxelc5O3j1z2P47W5A84vDEaNL2";}";i:1;s:126:"a:2:{s:5:"email";s:12:"luksa@lmd.eu";s:12:"passwordHash";s:60:"$2y$10$lvm2Yg9WyuWy4GpWLVpsXuteyKr61hWHVBrO9xnuMvaSuYS91Xria";}";}
